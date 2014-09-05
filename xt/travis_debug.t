@@ -18,7 +18,7 @@ for my $dir (File::Spec->path) {
     diag "Searching for $dir";
     my $fullpath = File::Spec->catfile($dir, $name);
     if ((-x $fullpath || -x ($fullpath .= $exe_ext)) && -d _) {
-        warn $full_path;
+        warn $fullpath;
     }
 }
 
