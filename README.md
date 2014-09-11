@@ -211,3 +211,10 @@ arising from the use of the software.
 # SEE ALSO
 
 [CPAN](https://metacpan.org/pod/CPAN) [CPANPLUS](https://metacpan.org/pod/CPANPLUS) [pip](https://metacpan.org/pod/pip)
+
+# HOW TO BUILD FROM SOURCE
+
+Install App::FatPacker and Perl::Strip. Then execute ./maint/build.pl. Copy cpanm script to your PATH.
+
+
+
