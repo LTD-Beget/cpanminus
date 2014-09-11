@@ -214,7 +214,7 @@ arising from the use of the software.
 
 # HOW TO BUILD FROM SOURCE
 
-Install App::FatPacker and Perl::Strip. Then execute ./maint/build.pl. Copy cpanm script to your PATH.
+Install modules: App::FatPacker Perl::Strip File::pushd. Then execute ./maint/build.pl. Copy cpanm script to your PATH.
 
 
 
