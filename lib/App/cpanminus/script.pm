@@ -375,6 +375,10 @@ sub setup_home {
 
     $self->{home} = $self->env('HOME') if $self->env('HOME');
 
+    unless (-e $self->{home}) {
+        File::Path::mkpath([ $self->{home} ], 0, 0700);
+    }
+
     unless (_writable($self->{home})) {
         die "Can't write to cpanm home '$self->{home}': You should fix it with chown/chmod first.\n";
     }
@@ -867,7 +871,7 @@ sub _writable {
     while (@dir) {
         $dir = File::Spec->catdir(@dir);
         if (-e $dir) {
-            return -w _;
+            return -w $dir;
         }
         pop @dir;
     }
@@ -2166,7 +2170,7 @@ DIAG
     }
 
     my $installed;
-    if ($configure_state->{use_module_build} && -e 'Build' && -f _) {
+    if ($configure_state->{use_module_build} && -e 'Build' && -f 'Build') {
         $self->diag_progress("Building " . ($self->{notest} ? "" : "and testing ") . $distname);
         $self->build([ $self->{perl}, "./Build" ], $distname, $depth) &&
         $self->test([ $self->{perl}, "./Build", "test" ], $distname, $depth) &&
@@ -2257,7 +2261,7 @@ sub configure_this {
 
     if ($self->{skip_configure}) {
         my $eumm = -e 'Makefile';
-        my $mb   = -e 'Build' && -f _;
+        my $mb   = -e 'Build' && -f 'Build';
         return {
             configured => 1,
             configured_ok => $eumm || $mb,
@@ -2286,7 +2290,7 @@ sub configure_this {
         if (-e 'Build.PL') {
             $self->chat("Running Build.PL\n");
             if ($self->configure([ $self->{perl}, "Build.PL" ], $depth)) {
-                $state->{configured_ok} = -e 'Build' && -f _;
+                $state->{configured_ok} = -e 'Build' && -f 'Build';
             }
             $state->{use_module_build}++;
             $state->{configured}++;
